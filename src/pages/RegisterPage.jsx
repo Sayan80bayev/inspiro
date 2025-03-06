@@ -10,16 +10,17 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
+import { cn } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const form = useForm()
 
   return (
     <div className="flex justify-center items-center h-screen bg-muted">
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle className="text-lg">Login</CardTitle>
+          <CardTitle className="text-lg">Register</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -51,7 +52,25 @@ export default function LoginPage() {
                     <FormControl>
                       <Input
                         type="password"
-                        placeholder="Enter your password"
+                        placeholder="Enter a password"
+                        required
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <Label>Confirm password</Label>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Confirm password"
                         required
                         {...field}
                       />
@@ -64,17 +83,14 @@ export default function LoginPage() {
                 type="submit"
                 className="w-full bg-black text-white hover:bg-gray-900"
               >
-                Log in
+                Sign up
               </Button>
             </form>
           </Form>
           <div className="mt-4 text-sm text-center text-muted-foreground">
-            <a href="/forgot-password" className="hover:underline">
-              Forgot password?
-            </a>
-            <span className="mx-2">|</span>
-            <Link to="/auth/register" className="hover:underline">
-              Sign up
+            <>Already signed up? </>
+            <Link to="/auth/login" className="hover:underline">
+              Sign in
             </Link>
           </div>
         </CardContent>
