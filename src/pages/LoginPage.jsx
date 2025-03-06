@@ -1,3 +1,8 @@
+import { useForm } from 'react-hook-form'
+import { useLogin } from '../hooks/useAuth'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Loading from '../components/ui/Loading'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -9,11 +14,23 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
 
 export default function LoginPage() {
   const form = useForm()
+  const navigate = useNavigate()
+  const loginMutation = useLogin()
+
+  useEffect(() => {
+    if (loginMutation.isSuccess) {
+      navigate('/dashboard') // Redirect to dashboard after login
+    }
+  }, [loginMutation.isSuccess, navigate])
+
+  const onSubmit = (data) => {
+    loginMutation.mutate(data)
+  }
+
+  if (loginMutation.isLoading) return <Loading />
 
   return (
     <div className="flex justify-center items-center h-screen bg-muted">
@@ -23,7 +40,7 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
                 name="email"
@@ -60,6 +77,12 @@ export default function LoginPage() {
                   </FormItem>
                 )}
               />
+              {loginMutation.isError && (
+                <p className="text-red-500 text-sm">
+                  {loginMutation.error.response?.data?.message ||
+                    'Login failed'}
+                </p>
+              )}
               <Button
                 type="submit"
                 className="w-full bg-black text-white hover:bg-gray-900"
@@ -68,15 +91,6 @@ export default function LoginPage() {
               </Button>
             </form>
           </Form>
-          <div className="mt-4 text-sm text-center text-muted-foreground">
-            <a href="/forgot-password" className="hover:underline">
-              Forgot password?
-            </a>
-            <span className="mx-2">|</span>
-            <Link to="/auth/register" className="hover:underline">
-              Sign up
-            </Link>
-          </div>
         </CardContent>
       </Card>
     </div>
