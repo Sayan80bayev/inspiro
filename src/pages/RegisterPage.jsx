@@ -1,8 +1,3 @@
-import { useForm } from 'react-hook-form'
-import { useLogin } from '../hooks/useAuth'
-import { useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import Loading from '../components/ui/Loading'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -14,36 +9,24 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
+import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 import AuthLayout from './AuthLayout'
 import { useTheme } from '@/app/providers/ThemeProvider'
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const form = useForm()
-  const navigate = useNavigate()
-  const loginMutation = useLogin()
   const { theme } = useTheme() // Получаем текущую тему
-
-  useEffect(() => {
-    if (loginMutation.isSuccess) {
-      navigate('/dashboard') // Redirect to dashboard after login
-    }
-  }, [loginMutation.isSuccess, navigate])
-
-  const onSubmit = (data) => {
-    loginMutation.mutate(data)
-  }
-
-  if (loginMutation.isLoading) return <Loading />
 
   return (
     <AuthLayout>
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle className="text-lg">Login</CardTitle>
+          <CardTitle className="text-lg">Register</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+            <form className="space-y-4">
               <FormField
                 control={form.control}
                 name="email"
@@ -71,7 +54,7 @@ export default function LoginPage() {
                     <FormControl>
                       <Input
                         type="password"
-                        placeholder="Enter your password"
+                        placeholder="Enter a password"
                         required
                         {...field}
                       />
@@ -80,25 +63,37 @@ export default function LoginPage() {
                   </FormItem>
                 )}
               />
-              {loginMutation.isError && (
-                <p className="text-red-500 text-sm">
-                  {loginMutation.error.response?.data?.message ||
-                    'Login failed'}
-                </p>
-              )}
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <Label>Confirm password</Label>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Confirm password"
+                        required
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <Button
                 type="submit"
                 className={`w-full  text-white hover:bg-gray-900 
                   ${theme === 'dark' ? 'bg-transparent border border-white' : 'bg-black'}`}
               >
-                Log in
+                Sign up
               </Button>
             </form>
           </Form>
           <div className="mt-4 text-sm text-center text-muted-foreground">
-            <>Don't have an account? </>
-            <Link to="/auth/register" className="hover:underline">
-              Sign up
+            <>Already signed up? </>
+            <Link to="/auth/login" className="hover:underline">
+              Sign in
             </Link>
           </div>
         </CardContent>

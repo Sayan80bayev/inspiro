@@ -1,15 +1,15 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import LoginPage from '@/pages/LoginPage'
 import { ThemeProvider } from './app/providers/ThemeProvider'
+import { AppRouter } from './app/routes/routes'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 function App() {
   return (
     <ThemeProvider>
-      <Router>
-        <Routes>
-          <Route path="/auth/login" element={<LoginPage />} />
-        </Routes>
-      </Router>
+      <QueryClientProvider client={queryClient}>
+        <AppRouter />
+      </QueryClientProvider>
     </ThemeProvider>
   )
 }
