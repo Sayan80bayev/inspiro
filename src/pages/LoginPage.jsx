@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useLogin } from '../hooks/useAuth'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import Loading from '../components/ui/Loading'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -14,11 +14,14 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
+import AuthLayout from './AuthLayout'
+import { useTheme } from '@/app/providers/ThemeProvider'
 
 export default function LoginPage() {
   const form = useForm()
   const navigate = useNavigate()
   const loginMutation = useLogin()
+  const { theme } = useTheme() // Получаем текущую тему
 
   useEffect(() => {
     if (loginMutation.isSuccess) {
@@ -33,7 +36,7 @@ export default function LoginPage() {
   if (loginMutation.isLoading) return <Loading />
 
   return (
-    <div className="flex justify-center items-center h-screen bg-muted">
+    <AuthLayout>
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle className="text-lg">Login</CardTitle>
@@ -85,14 +88,21 @@ export default function LoginPage() {
               )}
               <Button
                 type="submit"
-                className="w-full bg-black text-white hover:bg-gray-900"
+                className={`w-full  text-white hover:bg-gray-900 
+                  ${theme === 'dark' ? 'bg-transparent border border-white' : 'bg-black'}`}
               >
                 Log in
               </Button>
             </form>
           </Form>
+          <div className="mt-4 text-sm text-center text-muted-foreground">
+            <>Don't have an account? </>
+            <Link to="/auth/register" className="hover:underline">
+              Sign up
+            </Link>
+          </div>
         </CardContent>
       </Card>
-    </div>
+    </AuthLayout>
   )
 }

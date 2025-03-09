@@ -10,14 +10,16 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
-import { cn } from '@/lib/utils'
 import { Link } from 'react-router-dom'
+import AuthLayout from './AuthLayout'
+import { useTheme } from '@/app/providers/ThemeProvider'
 
 export default function RegisterPage() {
   const form = useForm()
+  const { theme } = useTheme() // Получаем текущую тему
 
   return (
-    <div className="flex justify-center items-center h-screen bg-muted">
+    <AuthLayout>
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle className="text-lg">Register</CardTitle>
@@ -81,7 +83,8 @@ export default function RegisterPage() {
               />
               <Button
                 type="submit"
-                className="w-full bg-black text-white hover:bg-gray-900"
+                className={`w-full  text-white hover:bg-gray-900 
+                  ${theme === 'dark' ? 'bg-transparent border border-white' : 'bg-black'}`}
               >
                 Sign up
               </Button>
@@ -95,6 +98,6 @@ export default function RegisterPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </AuthLayout>
   )
 }
