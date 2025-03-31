@@ -14,7 +14,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import AuthLayout from './AuthLayout'
+import AuthLayout from '../shared/ui/layout/AuthLayout'
 import { useTheme } from '@/app/providers/ThemeProvider'
 
 export default function LoginPage() {

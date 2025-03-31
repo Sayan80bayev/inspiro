@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
-import AuthLayout from './AuthLayout'
+import AuthLayout from '../shared/ui/layout/AuthLayout'
 import { useTheme } from '@/app/providers/ThemeProvider'
 
 export default function RegisterPage() {
