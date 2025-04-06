@@ -25,7 +25,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (loginMutation.isSuccess) {
-      navigate('/dashboard') // Redirect to dashboard after login
+      navigate('/home') // Redirect to dashboard after login
     }
   }, [loginMutation.isSuccess, navigate])
 
