@@ -9,14 +9,53 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
+import { useEffect } from 'react'
+import { useRegister } from '@/hooks/useAuth'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import AuthLayout from '../shared/ui/layout/AuthLayout'
 import { useTheme } from '@/app/providers/ThemeProvider'
+import { useNavigate } from 'react-router-dom'
+import { useToast } from '@/hooks/useToast'
 
 export default function RegisterPage() {
-  const form = useForm()
-  const { theme } = useTheme() // Получаем текущую тему
+  const form = useForm({
+    mode: 'onBlur',
+  })
+  const { theme } = useTheme()
+  const navigate = useNavigate()
+  const registerMutation = useRegister()
+  const { showSuccessToast } = useToast()
+
+  useEffect(() => {
+    if (registerMutation.isSuccess) {
+      console.log(
+        'Registration successful, token:',
+        registerMutation.data.token
+      ) // Log token
+      localStorage.setItem('token', registerMutation.data.token)
+      showSuccessToast('Successfully registered!') // Show success toast
+      navigate('/home') // Redirect to home/dashboard after successful registration
+    }
+  }, [
+    registerMutation.isSuccess,
+    navigate,
+    registerMutation.data,
+    showSuccessToast,
+  ])
+
+  const onSubmit = (data) => {
+    console.log('Form submitted with data:', data) // Log form data
+    if (data.password !== data.confirmPassword) {
+      form.setError('confirmPassword', {
+        type: 'manual',
+        message: 'Passwords do not match',
+      })
+      return
+    }
+    console.log('Calling registerMutation.mutate with data:', data) // Log before mutation
+    registerMutation.mutate(data)
+  }
 
   return (
     <AuthLayout>
@@ -25,8 +64,10 @@ export default function RegisterPage() {
           <CardTitle className="text-lg">Register</CardTitle>
         </CardHeader>
         <CardContent>
-          <Form {...form}>
-            <form className="space-y-4">
+          {/* Update Form component to use the onSubmit from react-hook-form */}
+          <Form {...form} onSubmit={form.handleSubmit(onSubmit)}>
+            <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+              {/* Email Field */}
               <FormField
                 control={form.control}
                 name="email"
@@ -45,6 +86,7 @@ export default function RegisterPage() {
                   </FormItem>
                 )}
               />
+              {/* Password Field */}
               <FormField
                 control={form.control}
                 name="password"
@@ -63,6 +105,7 @@ export default function RegisterPage() {
                   </FormItem>
                 )}
               />
+              {/* Confirm Password Field */}
               <FormField
                 control={form.control}
                 name="confirmPassword"
@@ -81,12 +124,14 @@ export default function RegisterPage() {
                   </FormItem>
                 )}
               />
+              {/* Submit Button */}
               <Button
                 type="submit"
-                className={`w-full  text-white hover:bg-gray-900 
+                className={`w-full text-white hover:bg-gray-900 
                   ${theme === 'dark' ? 'bg-transparent border border-white' : 'bg-black'}`}
+                disabled={registerMutation.isLoading}
               >
-                Sign up
+                {registerMutation.isLoading ? 'Signing up...' : 'Sign up'}
               </Button>
             </form>
           </Form>

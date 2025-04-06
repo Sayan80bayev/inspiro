@@ -16,18 +16,21 @@ import {
 } from '@/components/ui/form'
 import AuthLayout from '../shared/ui/layout/AuthLayout'
 import { useTheme } from '@/app/providers/ThemeProvider'
+import { useToast } from '../hooks/useToast' // Import the useToast hook
 
 export default function LoginPage() {
   const form = useForm()
   const navigate = useNavigate()
   const loginMutation = useLogin()
-  const { theme } = useTheme() // Получаем текущую тему
+  const { theme } = useTheme()
+  const { showSuccessToast } = useToast() // Initialize the toast functions
 
   useEffect(() => {
     if (loginMutation.isSuccess) {
+      localStorage.setItem('token', loginMutation.data.token)
       navigate('/home') // Redirect to dashboard after login
     }
-  }, [loginMutation.isSuccess, navigate])
+  }, [loginMutation.isSuccess, navigate, loginMutation.data, showSuccessToast])
 
   const onSubmit = (data) => {
     loginMutation.mutate(data)
@@ -88,7 +91,7 @@ export default function LoginPage() {
               )}
               <Button
                 type="submit"
-                className={`w-full  text-white hover:bg-gray-900 
+                className={`w-full text-white hover:bg-gray-900 
                   ${theme === 'dark' ? 'bg-transparent border border-white' : 'bg-black'}`}
               >
                 Log in
@@ -96,7 +99,7 @@ export default function LoginPage() {
             </form>
           </Form>
           <div className="mt-4 text-sm text-center text-muted-foreground">
-            <>Don't have an account? </>
+            Don't have an account?{' '}
             <Link to="/auth/register" className="hover:underline">
               Sign up
             </Link>

@@ -1,15 +1,35 @@
-import { ThemeProvider } from './app/providers/ThemeProvider'
+import { useEffect } from 'react'
+import { QueryProvider } from './app/providers/QueryProvider'
+import { ThemeProvider, useTheme } from './app/providers/ThemeProvider'
 import { AppRouter } from './app/routes/routes'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Toaster } from '@/components/ui/sonner'
 
-const queryClient = new QueryClient()
+function BodyStyler() {
+  const { theme } = useTheme()
+
+  useEffect(() => {
+    document.body.className =
+      theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'
+  }, [theme])
+
+  return null
+}
 
 function App() {
   return (
     <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
+      <QueryProvider>
+        <BodyStyler /> {/* Adds body styling based on theme */}
         <AppRouter />
-      </QueryClientProvider>
+        <Toaster
+          toastOptions={{
+            style: {
+              backgroundColor: '#4caf50',
+              color: 'white',
+            },
+          }}
+        />
+      </QueryProvider>
     </ThemeProvider>
   )
 }
