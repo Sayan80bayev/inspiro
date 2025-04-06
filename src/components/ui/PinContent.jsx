@@ -11,7 +11,7 @@ export const PinContent = ({ pin }) => {
     >
       {/* Image Section - Pinterest Style */}
       <div
-        className={`relative flex justify-center items-center overflow-hidden rounded-2xl ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}
+        className={`relative flex justify-center items-center overflow-hidden rounded-2xl ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-200'}`}
       >
         <img
           src={pin.image}

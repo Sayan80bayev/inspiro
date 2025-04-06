@@ -8,6 +8,11 @@ const dummyImages = [
   'https://i.pinimg.com/736x/ce/bd/d5/cebdd5d501342064edaca7ba4a53d1f4.jpg',
   'https://i.pinimg.com/736x/91/5b/1b/915b1bf025b6b08d1de5ca7f9b92a896.jpg',
   'https://i.pinimg.com/736x/4f/ea/4e/4fea4ea246211bc2ec160f14d0ee5684.jpg',
+  'https://i.pinimg.com/474x/5e/a5/bf/5ea5bffb9875a91ae319c9f97b1db65a.jpg',
+  'https://i.pinimg.com/474x/9a/68/bf/9a68bfad25eec57663f5496ec257d483.jpg',
+  'https://i.pinimg.com/474x/1e/fa/03/1efa0329e47c43e0ad180f971ecae924.jpg',
+  'https://i.pinimg.com/474x/e1/84/4c/e1844c18f1d25378f548a0e79c6f1740.jpg',
+  'https://i.pinimg.com/474x/b3/1c/71/b31c71714e7837628fd2e844bb172d19.jpg',
 ]
 
 export default function HomePage() {
