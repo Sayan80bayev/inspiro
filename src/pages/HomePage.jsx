@@ -1,7 +1,6 @@
 import { useTheme } from '@/app/providers/ThemeProvider'
-import { Card, CardContent } from '@/components/ui/card'
+import PinsGrid from '@/components/ui/PinsGrid'
 import Sidebar from '@/widgets/Sidebar'
-import clsx from 'clsx'
 
 const dummyImages = [
   'https://i.pinimg.com/736x/5b/23/7f/5b237f6f08ba0daf6990571a927b7ae3.jpg',
@@ -21,30 +20,7 @@ export default function HomePage() {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold">Inspiro</h1>
           </div>
-
-          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-            {dummyImages.map((src, idx) => (
-              <Card
-                key={idx}
-                className="bg-transparent shadow-none border-none p-0"
-              >
-                <div
-                  className={clsx(
-                    'overflow-hidden border rounded-2xl',
-                    theme === 'dark' ? 'border-white' : 'border-black'
-                  )}
-                >
-                  <CardContent className="p-0">
-                    <img
-                      src={src}
-                      alt={`img-${idx}`}
-                      className="w-full h-auto object-cover"
-                    />
-                  </CardContent>
-                </div>
-              </Card>
-            ))}
-          </div>
+          <PinsGrid pins={dummyImages} theme={theme} />
         </div>
       </main>
     </div>
