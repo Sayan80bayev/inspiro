@@ -20,7 +20,7 @@ function ToastComponent() {
 
   // Define dark theme color and lighter border color
   const darkColor = 'oklch(0.21 0.034 264.665)'
-  const lighterBorder = 'oklch(0.26 0.034 264.665)' // Slightly lighter for the border
+  const lighterBorder = 'oklch(0.30 0.034 264.665)' // Slightly lighter for the border
 
   // Set the toast style based on the current theme
   const toastStyle = {

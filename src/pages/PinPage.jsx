@@ -23,6 +23,7 @@ export default function PinPage() {
     return <div className="text-red-500 p-4">Error: {error.message}</div>
 
   const pin = {
+    id: id,
     image: data.pin.file_url,
     title: data.pin.title,
     description: data.pin.description,

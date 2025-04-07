@@ -40,3 +40,35 @@
 .read-the-docs {
   color: #888;
 }
+/* Scrollbar styling for both light and dark modes */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #a0aec0 transparent; /* fallback for Firefox */
+}
+
+/* Chrome, Edge, Safari */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(160, 174, 192, 0.6); /* Gray-400-ish */
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(160, 174, 192, 0.9); /* darker on hover */
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.dark .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.5);
+}

@@ -51,8 +51,14 @@ export default {
           4: 'hsl(var(--chart-4))',
           5: 'hsl(var(--chart-5))',
         },
+        scrollbar: '#888', // Customize scrollbar thumb color
+        'scrollbar-thumb': '#555', // Custom scrollbar thumb
+        'scrollbar-track': '#f0f0f0', // Custom scrollbar track color
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    require('tailwind-scrollbar'), // Add the scrollbar plugin
+  ],
 }

@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import {
   Settings,
   Home,
@@ -9,11 +10,10 @@ import {
   Sun,
   LogOut,
 } from 'lucide-react'
-import { useState } from 'react'
 import { useTheme } from '@/app/providers/ThemeProvider'
 import { Button } from '@/components/ui/button'
 import clsx from 'clsx'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
   Popover,
   PopoverTrigger,
@@ -28,19 +28,17 @@ export default function Sidebar() {
   const navigate = useNavigate()
 
   const handleLogout = () => {
-    localStorage.removeItem('token') // Clear token
+    localStorage.removeItem('token')
     showSuccessToast('Successfully logged out!')
-    navigate('/auth/login') // Redirect to login
+    navigate('/auth/login')
   }
 
   const handleNavigation = (to) => {
     const token = localStorage.getItem('token')
     if (!token && (to === '/create' || to === '/notifications')) {
-      // If the user is not logged in, redirect to login
       showErrorToast("You haven't signed in!")
       navigate('/auth/login')
     } else {
-      // If the user is logged in, allow navigation
       navigate(to)
     }
   }
@@ -53,8 +51,8 @@ export default function Sidebar() {
     { icon: Plus, label: 'Create', to: '/create' },
   ]
 
-  const isLoggedIn = !!localStorage.getItem('token') // Check if user is logged in
-  console.log(isLoggedIn)
+  const isLoggedIn = !!localStorage.getItem('token')
+
   return (
     <aside
       className={clsx(
@@ -64,6 +62,8 @@ export default function Sidebar() {
       )}
     >
       <div className="flex flex-col gap-6 mt-4">
+        {/* Image */}
+        {/* <img src={SidebarImage} alt="Sidebar Logo" className=" h-auto object-contain mb-4 w-[18px]" /> */}
         {navItems.map((item) => {
           const Icon = item.icon
           return (
@@ -98,7 +98,6 @@ export default function Sidebar() {
           </Button>
         </PopoverTrigger>
 
-        {/* Popover Content with Theme Support */}
         <PopoverContent
           className={clsx(
             'w-[200px] p-4 rounded-xl shadow-lg',
@@ -112,7 +111,6 @@ export default function Sidebar() {
           <h2 className="text-xl font-bold mb-4">Settings</h2>
           <p className="text-sm mb-6">Manage your preferences here.</p>
           <div className="space-y-4">
-            {/* Theme Toggle Option */}
             <Button
               className={`w-full
                 ${theme === 'dark' ? 'text-white bg-transparent border border-white' : 'bg-gray hover:bg-gray-200'}`}
@@ -123,7 +121,6 @@ export default function Sidebar() {
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </Button>
 
-            {/* Log In / Log Out Option */}
             <Button
               className={`w-full
                 ${theme === 'dark' ? 'text-white bg-transparent border border-white hover:bg-gray-900' : 'bg-gray-100 hover:bg-red-500 hover:text-white'}`}

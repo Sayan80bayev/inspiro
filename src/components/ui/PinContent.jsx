@@ -1,8 +1,17 @@
+import { useState } from 'react'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { useTheme } from '@/app/providers/ThemeProvider'
+import { CommentList } from '@/components/ui/CommentList'
+import { CommentInput } from '@/components/ui/CommentInput'
+import { CommentModal } from '@/widgets/CommentModal'
+import { MoreHorizontal } from 'lucide-react' // Importing the MoreHorizontal icon
 
 export const PinContent = ({ pin }) => {
   const { theme } = useTheme()
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleOpenModal = () => setIsModalOpen(true)
+  const handleCloseModal = () => setIsModalOpen(false)
 
   return (
     <div
@@ -29,10 +38,9 @@ export const PinContent = ({ pin }) => {
 
       {/* Info Section */}
       <div
-        className={`flex-1 max-w-md overflow-y-auto relative flex justify-center items-center p-4 rounded-2xl ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black'}`}
+        className={`flex-1 max-w-md relative flex flex-col justify-between p-4 rounded-2xl ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black'}`}
       >
-        <div className="w-full h-full max-w-full overflow-y-auto flex flex-col gap-4">
-          {/* Author Info */}
+        <div className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
             <Avatar>
               <AvatarImage src={pin.authorAvatar} />
@@ -58,43 +66,32 @@ export const PinContent = ({ pin }) => {
             </div>
           )}
 
-          {/* Comments */}
-          <div>
-            <h2 className="font-semibold mb-2">Comments</h2>
-            <div className="space-y-4">
-              {pin.comments?.length > 0 ? (
-                pin.comments.map((comment, index) => (
-                  <div key={comment.id} className="flex gap-3 items-start">
-                    <Avatar>
-                      <AvatarImage src={comment.avatar} />
-                      <AvatarFallback>
-                        {comment.user?.[0]?.toUpperCase() || '?'}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div
-                      className={`p-4 rounded-xl ${theme === 'dark' ? (index % 2 === 0 ? 'bg-gray-700' : 'bg-gray-600') : index % 2 === 0 ? 'bg-blue-50' : 'bg-green-50'}`}
-                    >
-                      <p className="text-sm font-medium">{comment.user}</p>
-                      <p
-                        className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-muted-foreground'}`}
-                      >
-                        {comment.text}
-                      </p>
-                      <p
-                        className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-muted-foreground'}`}
-                      >
-                        {comment.time}
-                      </p>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-sm italic text-gray-500">No comments yet.</p>
-              )}
-            </div>
-          </div>
+          <h2 className="font-semibold mb-2">Comments</h2>
+
+          {/* Comment List with button to open modal */}
+          <CommentList comments={pin.comments} />
+          {pin.comments?.length > 2 && (
+            <button
+              onClick={handleOpenModal}
+              className="text-gray-500 flex items-center gap-2 text-sm font-medium hover:text-gray-700 mt-4"
+            >
+              <MoreHorizontal className="h-4 w-4" />{' '}
+              {/* MoreHorizontal icon from lucide-react */}
+              View All Comments
+            </button>
+          )}
         </div>
+
+        {/* Sticky Input */}
+        <CommentInput pin_id={pin.id} />
       </div>
+
+      {/* Modal for Comments */}
+      <CommentModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        comments={pin.comments}
+      />
     </div>
   )
 }
