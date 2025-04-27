@@ -2,8 +2,8 @@ import axios from 'axios'
 
 const API_BASE = 'http://localhost:80/api/v1/pin'
 
-export const getPins = async () => {
-  const response = await axios.get(API_BASE)
+export const getPins = async (sortOrder = 'newest') => {
+  const response = await axios.get(`${API_BASE}?sort=${sortOrder}`)
   return response.data
 }
 

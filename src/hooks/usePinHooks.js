@@ -8,11 +8,10 @@ import {
 } from '../api/pinApi'
 import { useToast } from './useToast'
 
-// GET all pins
-export const useGetPins = () => {
+export const useGetPins = (sortOrder = 'newest') => {
   return useQuery({
-    queryKey: ['pins'],
-    queryFn: getPins,
+    queryKey: ['pins', sortOrder], // теперь зависит от сортировки
+    queryFn: () => getPins(sortOrder),
   })
 }
 

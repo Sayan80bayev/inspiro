@@ -72,3 +72,12 @@
 .dark .custom-scrollbar:hover::-webkit-scrollbar-thumb {
   background-color: rgba(255, 255, 255, 0.5);
 }
+
+/* Отключаем кольца и тени при фокусе */
+.no-focus-ring:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  --tw-ring-color: transparent !important;
+  --tw-ring-offset-width: 0 !important;
+  --tw-ring-shadow: none !important;
+}
