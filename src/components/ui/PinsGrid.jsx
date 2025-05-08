@@ -8,7 +8,7 @@ const PinsGrid = ({ pins, theme }) => {
       {pins.map((pin, idx) => (
         <Link
           key={pin.id || idx}
-          to={`/pinpage/${pin.id}`}
+          to={`/pinpage/${pin._id}`}
           className="block cursor-pointer"
         >
           <Card className="bg-transparent shadow-none border-none p-0">

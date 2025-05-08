@@ -22,6 +22,7 @@ export default function HomePage() {
   const formattedPins = useMemo(() => {
     if (!pins) return []
     return pins.map((pin) => ({
+      id: pin._id,
       ...pin,
       title: pin.title.trim(),
     }))
