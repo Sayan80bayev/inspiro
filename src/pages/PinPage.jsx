@@ -49,8 +49,8 @@ export default function PinPage() {
     authorAvatar: `https://i.pravatar.cc/40?u=${data.pin.user._id}`,
     comments: data.pin.comments.map((c) => ({
       id: c._id,
-      user: c.user.email.split('@')[0],
-      avatar: `https://i.pravatar.cc/40?u=${c.user._id}`,
+      user: c.user_id.email.split('@')[0],
+      avatar: `https://i.pravatar.cc/40?u=${c.user_id._id}`,
       text: c.text,
       time: new Date(c.createdAt).toLocaleTimeString(),
     })),
