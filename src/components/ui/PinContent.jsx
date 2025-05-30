@@ -4,14 +4,12 @@ import { useTheme } from '@/app/providers/ThemeProvider'
 import { CommentList } from '@/components/ui/CommentList'
 import { CommentInput } from '@/components/ui/CommentInput'
 import { CommentModal } from '@/widgets/CommentModal'
-import { MoreHorizontal } from 'lucide-react' // Importing the MoreHorizontal icon
+import { Button } from '@/components/ui/button'
+import { MoreHorizontal } from 'lucide-react'
 
-export const PinContent = ({ pin }) => {
+export const PinContent = ({ pin, showDelete, onDelete }) => {
   const { theme } = useTheme()
   const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const handleOpenModal = () => setIsModalOpen(true)
-  const handleCloseModal = () => setIsModalOpen(false)
 
   return (
     <div
@@ -41,21 +39,30 @@ export const PinContent = ({ pin }) => {
         className={`flex-1 max-w-md relative flex flex-col justify-between p-4 rounded-2xl ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black'}`}
       >
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-3">
-            <Avatar>
-              <AvatarImage src={pin.authorAvatar} />
-              <AvatarFallback>
-                {pin.author?.[0]?.toUpperCase() || '?'}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <h1 className="text-2xl font-bold">{pin.title}</h1>
-              <p
-                className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-muted-foreground'}`}
-              >
-                by <strong>{pin.author}</strong> · {pin.createdAt}
-              </p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Avatar>
+                <AvatarImage src={pin.authorAvatar} />
+                <AvatarFallback>
+                  {pin.author?.[0]?.toUpperCase() || '?'}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <h1 className="text-2xl font-bold">{pin.title}</h1>
+                <p className="text-sm text-muted-foreground">
+                  by <strong>{pin.author}</strong> · {pin.createdAt}
+                </p>
+              </div>
             </div>
+
+            {showDelete && (
+              <Button
+                onClick={onDelete}
+                className="bg-red-500 hover:bg-red-600 text-white"
+              >
+                Delete
+              </Button>
+            )}
           </div>
 
           {/* Description */}
@@ -67,29 +74,24 @@ export const PinContent = ({ pin }) => {
           )}
 
           <h2 className="font-semibold mb-2">Comments</h2>
-
-          {/* Comment List with button to open modal */}
           <CommentList comments={pin.comments} />
           {pin.comments?.length > 2 && (
             <button
-              onClick={handleOpenModal}
+              onClick={() => setIsModalOpen(true)}
               className="text-gray-500 flex items-center gap-2 text-sm font-medium hover:text-gray-700 mt-4"
             >
-              <MoreHorizontal className="h-4 w-4" />{' '}
-              {/* MoreHorizontal icon from lucide-react */}
+              <MoreHorizontal className="h-4 w-4" />
               View All Comments
             </button>
           )}
         </div>
 
-        {/* Sticky Input */}
         <CommentInput pin_id={pin.id} />
       </div>
 
-      {/* Modal for Comments */}
       <CommentModal
         isOpen={isModalOpen}
-        onClose={handleCloseModal}
+        onClose={() => setIsModalOpen(false)}
         comments={pin.comments}
       />
     </div>
