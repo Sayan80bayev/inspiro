@@ -13,18 +13,30 @@ export const getPinById = async (id) => {
 }
 
 export const createPin = async (pinData) => {
-  const response = await axios.post(API_BASE, pinData, {
+  const formData = new FormData()
+  for (const key in pinData) {
+    formData.append(key, pinData[key])
+  }
+
+  const response = await axios.post(API_BASE, formData, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'multipart/form-data',
     },
   })
   return response.data
 }
 
 export const updatePin = async ({ id, pinData }) => {
-  const response = await axios.put(`${API_BASE}/${id}`, pinData, {
+  const formData = new FormData()
+  for (const key in pinData) {
+    formData.append(key, pinData[key])
+  }
+
+  const response = await axios.put(`${API_BASE}/${id}`, formData, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'multipart/form-data',
     },
   })
   return response.data
